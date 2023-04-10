@@ -2,6 +2,7 @@ use std::fs::File;
 use std::io;
 use std::io::{BufReader, Read};
 use clap::{Parser};
+use md5::Md5;
 use sha2::{Sha256, Digest};
 
 #[derive(Parser)]
@@ -15,7 +16,7 @@ struct Args {
 
 fn main() -> io::Result<()> {
     let args = Args::parse();
-    //if let Some(filename) = args.filename {
+
     if args.filename != "" {
         let mut reader = BufReader::new(File::open(args.filename)?);
         let mut buffer = Vec::new();
@@ -24,13 +25,14 @@ fn main() -> io::Result<()> {
         println!("Read {} bytes", bufsize);
 
         let mut sha256hasher = Sha256::new();
-        let md5hasher = md5::compute(&buffer);
-        let mut ripemdhash = ripemd::Ripemd256::new();
-        ripemdhash.update(&buffer);
+        let mut md5hasher = Md5::new();
+
+        md5hasher.update(&buffer);
+        println!("MD5:\t{:X}", md5hasher.finalize());
+
         sha256hasher.update(&buffer);
         println!("SHA256:\t{:X}", sha256hasher.finalize());
-        println!("RIPEMD:\t{:X}", ripemdhash.finalize());
-        println!("MD5:\t{:X}", md5hasher);
+
     }
 
     Ok(())
