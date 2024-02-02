@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io;
 use std::io::{BufReader, Read};
-use clap::{Parser};
+use clap::Parser;
 use md5::Md5;
 use sha2::{Sha256, Digest};
 
@@ -18,7 +18,7 @@ fn main() -> io::Result<()> {
     let args = Args::parse();
 
     //Check that the user actually has a filename provided
-    if args.filename != "" {
+    if !args.filename.is_empty() {
         //Open the file for the BufReader to pull data from
         let mut reader = BufReader::new(File::open(args.filename)?);
 
