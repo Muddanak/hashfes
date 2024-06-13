@@ -8,6 +8,10 @@ MD5 is not completely recommended as a sole source of information to verify agai
 ```
 hashfes.exe (Filename)
 ```
+## Compiling
+
+Simply copy the repo and run ```cargo build --release```
+
 
 ## License
 
